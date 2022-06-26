@@ -16,8 +16,8 @@ let test n =
   Command_unix.run
     (Bench.make_command
       [
-        Bench.Test.create ~name:(Printf.sprintf "  trmc %d" n) (fun () -> ignore (map Fun.id l));
-        Bench.Test.create ~name:(Printf.sprintf "stdlib %d" n) (fun () -> ignore (trmc_map Fun.id l));
+        Bench.Test.create ~name:(Printf.sprintf "stdlib %d" n) (fun () -> ignore (map Fun.id l));
+        Bench.Test.create ~name:(Printf.sprintf "  trmc %d" n) (fun () -> ignore (trmc_map Fun.id l));
       ]
     )
 

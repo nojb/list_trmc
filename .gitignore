@@ -1,5 +1,1 @@
-*.cm*
-*.o
-*.obj
-*.bc
-*.exe
+/_build

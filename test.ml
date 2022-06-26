@@ -1,23 +1,27 @@
-let [@tail_mod_cons] rec map f l = match l with [] -> [] | x :: xs -> let y = f x in y :: map f xs
+open! Core
+open Core_bench
 
-let test f n =
-  let l = List.init n Fun.id in
-  let total = ref 0. in
-  for _ = 1 to 100 do
-    Gc.compact ();
-    let t0 = Unix.gettimeofday () in
-    let _ = f Fun.id l in
-    let t1 = Unix.gettimeofday () in
-    total := !total +. (t1 -. t0)
-  done;
-  !total
+let[@tail_mod_cons] rec trmc_map f l =
+  match l with
+  |[] -> []
+  | x :: xs -> let y = f x in y :: trmc_map f xs
 
-let cases = [10; 100; 1000; 10000; 100000; 1000000](*; 10000000]*)
+let rec map f l =
+  match l with
+  |[] -> []
+  | x :: xs -> let y = f x in y :: map f xs
+
+let test n =
+  let l = Stdlib.List.init n Fun.id in
+  Command_unix.run
+    (Bench.make_command
+      [
+        Bench.Test.create ~name:(Printf.sprintf "  trmc %d" n) (fun () -> ignore (map Fun.id l));
+        Bench.Test.create ~name:(Printf.sprintf "stdlib %d" n) (fun () -> ignore (trmc_map Fun.id l));
+      ]
+    )
 
 let () =
-  let l1 = List.map (test List.map) cases in
-  let l2 = List.map (test map) cases in
-  Printf.printf "       n    List.map   trmc map\n";
-  List.iter2 (fun n (t1, t2) ->
-    Printf.printf "%8d    %.2f       %.2f\n" n t1 t2
-  ) cases (List.combine l1 l2)
+  for n = 1 to 10 do
+    test n
+  done

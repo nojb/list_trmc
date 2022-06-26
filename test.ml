@@ -2,14 +2,17 @@ let [@tail_mod_cons] rec map f l = match l with [] -> [] | x :: xs -> f x :: map
 
 let test f n =
   let l = List.init n Fun.id in
-  let t0 = Unix.gettimeofday () in
+  let total = ref 0. in
   for _ = 1 to 100 do
-    f Fun.id l
+    Gc.compact ();
+    let t0 = Unix.gettimeofday () in
+    let _ = f Fun.id l in
+    let t1 = Unix.gettimeofday () in
+    total := !total +. (t1 -. t0)
   done;
-  let t1 = Unix.gettimeofday () in
-  t1 -. t0
+  !total
 
-let cases = [10; 100; 1000; 10000; 100000; 1000000]
+let cases = [10; 100; 1000; 10000; 100000; 1000000; 10000000]
 
 let () =
   let l1 = List.map (test List.map) cases in

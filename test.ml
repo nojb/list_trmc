@@ -25,13 +25,15 @@ let rec map f = function
   | [] -> []
   | x :: xs -> let y = f x in y :: map f xs
 
+let g = ref []
+
 let test n =
   let l = Stdlib.List.init n Fun.id in
   Command_unix.run
     (Bench.make_command
       [
-        Bench.Test.create ~name:(Printf.sprintf "stdlib %d" n) (fun () -> ignore (map Fun.id l));
-        Bench.Test.create ~name:(Printf.sprintf "  trmc %d" n) (fun () -> ignore (trmc_map Fun.id l));
+        Bench.Test.create ~name:(Printf.sprintf "  trmc %d" n) (fun () -> g := trmc_map Fun.id l);
+        Bench.Test.create ~name:(Printf.sprintf "stdlib %d" n) (fun () -> g := map Fun.id l);
       ]
     )
 

@@ -1,14 +1,28 @@
 open! Core
 open Core_bench
 
-let[@tail_mod_cons] rec trmc_map f l =
-  match l with
-  |[] -> []
-  | x :: xs -> let y = f x in y :: trmc_map f xs
+let[@tail_mod_cons] rec trmc_map f = function
+  | [] -> []
+  | [x1] ->
+    let y1 = f x1 in
+    [y1]
+  | [x1; x2] ->
+    let y1 = f x1 in
+    let y2 = f x2 in
+    [y1; y2]
+  | [x1; x2; x3] ->
+    let y1 = f x1 in
+    let y2 = f x2 in
+    let y3 = f x3 in
+    [y1; y2; y3]
+  | x1 :: x2 :: x3 :: xs ->
+    let y1 = f x1 in
+    let y2 = f x2 in
+    let y3 = f x3 in
+    y1 :: y2 :: y3 :: trmc_map f xs
 
-let rec map f l =
-  match l with
-  |[] -> []
+let rec map f = function
+  | [] -> []
   | x :: xs -> let y = f x in y :: map f xs
 
 let test n =
@@ -21,7 +35,7 @@ let test n =
       ]
     )
 
+let cases = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 100; 1000; 10000; 100000]
+
 let () =
-  for n = 1 to 10 do
-    test n
-  done
+  Stdlib.List.iter test cases

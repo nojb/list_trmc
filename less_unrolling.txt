@@ -1,0 +1,73 @@
+dune build --profile release
+_build/default/test.exe
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 1 │   5.23ns │   3.00w │     77.18% │
+│ map stdlib        1 │   6.77ns │   3.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 2 │   6.77ns │   6.00w │     73.77% │
+│ map stdlib        2 │   9.18ns │   6.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 3 │  11.38ns │   9.00w │     99.21% │
+│ map stdlib        3 │  11.47ns │   9.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 4 │  12.99ns │  12.00w │     81.90% │
+│ map stdlib        4 │  15.86ns │  12.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 5 │  17.11ns │  15.00w │     89.46% │
+│ map stdlib        5 │  19.12ns │  15.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 6 │  19.15ns │  18.00w │     85.70% │
+│ map stdlib        6 │  22.35ns │  18.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 7 │  22.37ns │  21.00w │     88.38% │
+│ map stdlib        7 │  25.31ns │  21.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 8 │  24.56ns │  24.00w │     84.38% │
+│ map stdlib        8 │  29.10ns │  24.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌─────────────────────┬──────────┬─────────┬────────────┐
+│ Name                │ Time/Run │ mWd/Run │ Percentage │
+├─────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 9 │  29.10ns │  27.00w │     78.62% │
+│ map stdlib        9 │  37.02ns │  27.00w │    100.00% │
+└─────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.
+┌──────────────────────┬──────────┬─────────┬────────────┐
+│ Name                 │ Time/Run │ mWd/Run │ Percentage │
+├──────────────────────┼──────────┼─────────┼────────────┤
+│ map trmc unrolled 10 │  29.77ns │  30.00w │     83.36% │
+│ map stdlib        10 │  35.71ns │  30.00w │    100.00% │
+└──────────────────────┴──────────┴─────────┴────────────┘
+Estimated testing time 20s (2 benchmarks x 10s). Change using '-quota'.

@@ -1,76 +1,45 @@
 open! Core
 open Core_bench
 
-let[@tail_mod_cons] rec map2 f l1 l2 =
-  match (l1, l2) with
-  | [], [] -> []
-  | [a1], [b1] ->
-      let r1 = f a1 b1 in
-      [r1]
-  | a1::a2::l1, b1::b2::l2 ->
-    let r1 = f a1 b1 in
-    let r2 = f a2 b2 in
-      r1::r2::map2 f l1 l2
-  | _, _ -> invalid_arg "map2"
+let[@tail_mod_cons] rec of_seq seq =
+  match seq () with
+  | Seq.Nil -> []
+  | Seq.Cons (x, seq) -> x :: of_seq seq
 
+let[@tail_mod_cons] rec init i n f =
+  if i >= n then []
+  else
+    let r = f i in
+    r :: init (i+1) n f
 
-let[@tail_mod_cons] rec map f = function
-  | [] -> []
-  | [a1] ->
-      let r1 = f a1 in
-      [r1]
-  | a1::a2::l ->
-    let r1 = f a1 in
-    let r2 = f a2 in
-      r1::r2::map f l
-
-let[@tail_mod_cons] rec mapi f i = function
-  | [] -> []
-  | [a1] ->
-      let r1 = f i a1 in
-      [r1]
-  | a1::a2::l ->
-    let r1 = f i a1 in
-    let r2 = f (i+1) a2 in
-      r1::r2::mapi f (i+2) l
-
-let mapi f l = mapi f 0 l
+let init len f =
+  if len < 0 then invalid_arg "List.init" else
+  init 0 len f
 
 let g = ref []
 
-let map2_test n =
-  let lst = Stdlib.List.init n Fun.id in
+let test n =
   Command_unix.run
     (Bench.make_command
       [
-        Bench.Test.create ~name:(Printf.sprintf "map2 trmc unrolled %d" n) (fun () -> g := map2 (+) lst lst);
-        Bench.Test.create ~name:(Printf.sprintf "map2 stdlib        %d" n) (fun () -> g := Stdlib.List.map2 (+) lst lst);
+        Bench.Test.create ~name:(Printf.sprintf "stdlib  %d" n) (fun () -> g := Stdlib.List.init n Fun.id);
+        Bench.Test.create ~name:(Printf.sprintf "trmc    %d" n) (fun () -> g := init n Fun.id);
       ]
     )
 
-let map_test n =
-  let lst = Stdlib.List.init n Fun.id in
+let test2 n =
+  let l = Stdlib.List.to_seq (Stdlib.List.init n Fun.id) in
   Command_unix.run
     (Bench.make_command
       [
-        Bench.Test.create ~name:(Printf.sprintf "map trmc unrolled %d" n) (fun () -> g := map succ lst);
-        Bench.Test.create ~name:(Printf.sprintf "map stdlib        %d" n) (fun () -> g := Stdlib.List.map succ lst);
+        Bench.Test.create ~name:(Printf.sprintf "stdlib  %d" n) (fun () -> g := Stdlib.List.of_seq l);
+        Bench.Test.create ~name:(Printf.sprintf "trmc    %d" n) (fun () -> g := of_seq l);
       ]
     )
 
-let mapi_test n =
-  let lst = Stdlib.List.init n Fun.id in
-  Command_unix.run
-    (Bench.make_command
-      [
-        Bench.Test.create ~name:(Printf.sprintf "mapi trmc unrolled %d" n) (fun () -> g := mapi (+) lst);
-        Bench.Test.create ~name:(Printf.sprintf "mapi stdlib        %d" n) (fun () -> g := Stdlib.List.mapi (+) lst);
-      ]
-    )
 
-let cases = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 100; 1000; 10000; 100000; (*1000000*)]
+let cases = [1; 2; 3; 4; 5; 10; 100; 1000; 10001; 100000; (*1000000*)]
 
 let () =
-  Stdlib.List.iter map_test cases;
-  Stdlib.List.iter mapi_test cases;
-  Stdlib.List.iter map2_test cases
+  Stdlib.List.iter test cases;
+  Stdlib.List.iter test2 cases;
